@@ -1,0 +1,544 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RailWay — Book Train Tickets Online</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar" id="navbar">
+      <div class="nav-inner">
+        <a href="#home" class="nav-brand">
+          <i class="ri-train-fill"></i>
+          <span>RailWay</span>
+        </a>
+
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+          <span></span><span></span><span></span>
+        </button>
+
+        <ul class="nav-links" id="nav-links">
+          <li>
+            <a href="#home" id="nav-home" class="nav-link active"
+              ><i class="ri-home-4-line"></i> Home</a
+            >
+          </li>
+          <li>
+            <a href="#pnr" id="nav-pnr" class="nav-link"
+              ><i class="ri-search-eye-line"></i> PNR Status</a
+            >
+          </li>
+          <li>
+            <a href="#my-bookings" id="nav-my-bookings" class="nav-link"
+              ><i class="ri-ticket-2-line"></i> My Bookings</a
+            >
+          </li>
+          <li>
+            <a href="#admin" id="nav-admin" class="nav-link"
+              ><i class="ri-dashboard-3-line"></i> Admin</a
+            >
+          </li>
+        </ul>
+
+        <div class="nav-auth">
+          <button class="btn btn-nav-login" id="btn-login-nav">
+            <i class="ri-user-line"></i> Login / Register
+          </button>
+          <div class="user-menu" id="user-menu" style="display: none">
+            <div class="user-menu-toggle" id="user-menu-toggle">
+              <div class="user-avatar"><i class="ri-user-3-fill"></i></div>
+              <span id="user-display-name">User</span>
+              <i class="ri-arrow-down-s-line"></i>
+            </div>
+            <div class="user-dropdown" id="user-dropdown">
+              <a href="#my-bookings"
+                ><i class="ri-ticket-2-line"></i> My Bookings</a
+              >
+              <button id="btn-logout">
+                <i class="ri-logout-box-r-line"></i> Logout
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ===== AUTH MODAL ===== -->
+    <div class="modal-overlay" id="auth-modal">
+      <div class="auth-card">
+        <button class="btn-close-modal" id="btn-close-auth-modal">
+          <i class="ri-close-line"></i>
+        </button>
+        <div class="auth-header">
+          <i class="ri-train-fill auth-logo-icon"></i>
+          <h2>Welcome to RailWay</h2>
+        </div>
+        <div class="auth-tabs">
+          <button class="auth-tab active" id="auth-tab-login">Login</button>
+          <button class="auth-tab" id="auth-tab-register">Register</button>
+        </div>
+        <form id="login-form" class="auth-form" autocomplete="off">
+          <div class="form-group">
+            <label for="login-username"
+              ><i class="ri-user-line"></i> Username</label
+            >
+            <input
+              type="text"
+              id="login-username"
+              placeholder="Enter your username"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="login-password"
+              ><i class="ri-lock-line"></i> Password</label
+            >
+            <input
+              type="password"
+              id="login-password"
+              placeholder="Enter your password"
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            class="btn btn-primary btn-block"
+            id="btn-login-submit"
+          >
+            <i class="ri-login-box-line"></i> Sign In
+          </button>
+        </form>
+        <form
+          id="register-form"
+          class="auth-form"
+          style="display: none"
+          autocomplete="off"
+        >
+          <div class="form-group">
+            <label for="reg-username"
+              ><i class="ri-user-line"></i> Username</label
+            >
+            <input
+              type="text"
+              id="reg-username"
+              placeholder="Choose a username"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="reg-name"
+              ><i class="ri-user-heart-line"></i> Full Name</label
+            >
+            <input
+              type="text"
+              id="reg-name"
+              placeholder="Enter your full name"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="reg-mobile"
+              ><i class="ri-phone-line"></i> Mobile Number</label
+            >
+            <input
+              type="tel"
+              id="reg-mobile"
+              placeholder="Enter 10-digit mobile number"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="reg-password"
+              ><i class="ri-lock-line"></i> Password</label
+            >
+            <input
+              type="password"
+              id="reg-password"
+              placeholder="Create a password"
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            class="btn btn-primary btn-block"
+            id="btn-register-submit"
+          >
+            <i class="ri-user-add-line"></i> Create Account
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ===== BOOKING SUCCESS MODAL ===== -->
+    <div class="modal-overlay" id="booking-success-modal">
+      <div class="success-card">
+        <div class="success-checkmark">
+          <div class="check-icon">
+            <span class="icon-line line-tip"></span>
+            <span class="icon-line line-long"></span>
+            <div class="icon-circle"></div>
+            <div class="icon-fix"></div>
+          </div>
+        </div>
+        <h2>Booking Confirmed!</h2>
+        <p class="success-sub">Your ticket has been booked successfully</p>
+        <div class="pnr-display">
+          <span class="pnr-label">PNR Number</span>
+          <span class="pnr-number" id="success-pnr">—</span>
+          <button class="btn-copy" id="btn-copy-pnr" title="Copy PNR">
+            <i class="ri-file-copy-line"></i>
+          </button>
+        </div>
+        <div class="success-fare" id="success-fare-display"></div>
+        <div class="success-actions">
+          <button class="btn btn-primary" id="btn-view-booking">
+            <i class="ri-eye-line"></i> View Booking
+          </button>
+          <button class="btn btn-outline" id="btn-book-another">
+            <i class="ri-add-line"></i> Book Another
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main class="main-content">
+      <!-- PAGE: HOME -->
+      <section id="page-home" class="page active">
+        <div class="hero">
+          <div class="hero-bg-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+          </div>
+          <div class="hero-content">
+            <div class="hero-text">
+              <div class="hero-badge">
+                🚄 India's #1 Railway Booking Platform
+              </div>
+              <h1>Book Train Tickets</h1>
+              <p class="hero-sub">
+                Fast, Easy &amp; Secure Railway Reservations
+              </p>
+            </div>
+            <div class="search-card">
+              <div class="search-row">
+                <div class="search-field">
+                  <label><i class="ri-map-pin-line"></i> From</label>
+                  <select id="search-from">
+                    <option value="">Select Origin</option>
+                  </select>
+                </div>
+                <button class="btn-swap" id="btn-swap" title="Swap stations">
+                  <i class="ri-arrow-left-right-line"></i>
+                </button>
+                <div class="search-field">
+                  <label><i class="ri-map-pin-fill"></i> To</label>
+                  <select id="search-to">
+                    <option value="">Select Destination</option>
+                  </select>
+                </div>
+                <div class="search-field">
+                  <label><i class="ri-calendar-line"></i> Date</label>
+                  <input type="date" id="search-date" />
+                </div>
+                <button
+                  class="btn btn-accent btn-search"
+                  id="btn-search-trains"
+                >
+                  <i class="ri-search-line"></i> Search Trains
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section features-section">
+          <h2 class="section-title">Why Choose RailWay?</h2>
+          <div class="features-grid">
+            <div class="feature-card">
+              <div
+                class="feature-icon"
+                style="background: linear-gradient(135deg, #42a5f5, #1565c0)"
+              >
+                <i class="ri-rocket-2-line"></i>
+              </div>
+              <h3>Fast Booking</h3>
+              <p>
+                Book your train tickets in seconds with our streamlined booking
+                process.
+              </p>
+            </div>
+            <div class="feature-card">
+              <div
+                class="feature-icon"
+                style="background: linear-gradient(135deg, #ff6f00, #ffa040)"
+              >
+                <i class="ri-search-eye-line"></i>
+              </div>
+              <h3>PNR Status</h3>
+              <p>
+                Track your booking status in real-time with live PNR updates.
+              </p>
+            </div>
+            <div class="feature-card">
+              <div
+                class="feature-icon"
+                style="background: linear-gradient(135deg, #2e7d32, #66bb6a)"
+              >
+                <i class="ri-shield-check-line"></i>
+              </div>
+              <h3>Secure Payment</h3>
+              <p>
+                Multiple payment options with 100% secure transaction guarantee.
+              </p>
+            </div>
+            <div class="feature-card">
+              <div
+                class="feature-icon"
+                style="background: linear-gradient(135deg, #7b1fa2, #ba68c8)"
+              >
+                <i class="ri-customer-service-2-line"></i>
+              </div>
+              <h3>24/7 Support</h3>
+              <p>Round-the-clock customer support for all your travel needs.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="section popular-routes-section">
+          <h2 class="section-title">Popular Routes</h2>
+          <div class="routes-grid" id="popular-routes">
+            <div class="route-chip" data-from="Chennai" data-to="Madurai">
+              <i class="ri-route-line"></i> Chennai → Madurai
+            </div>
+            <div class="route-chip" data-from="Thrissur" data-to="Kollam">
+              <i class="ri-route-line"></i> Thrissur → Kollam
+            </div>
+            <div class="route-chip" data-from="Ernakulam" data-to="Trivandrum">
+              <i class="ri-route-line"></i> Ernakulam → Trivandrum
+            </div>
+            <div class="route-chip" data-from="Bangalore" data-to="Chennai">
+              <i class="ri-route-line"></i> Bangalore → Chennai
+            </div>
+            <div class="route-chip" data-from="Coimbatore" data-to="Kochi">
+              <i class="ri-route-line"></i> Coimbatore → Kochi
+            </div>
+            <div class="route-chip" data-from="Madurai" data-to="Trivandrum">
+              <i class="ri-route-line"></i> Madurai → Trivandrum
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE: SEARCH RESULTS -->
+      <section id="page-search-results" class="page">
+        <div class="container">
+          <button class="btn btn-back" id="btn-back-home">
+            <i class="ri-arrow-left-line"></i> Back to Search
+          </button>
+          <div class="results-header">
+            <h2><i class="ri-train-line"></i> Available Trains</h2>
+            <div id="search-summary" class="search-summary"></div>
+            <span class="results-badge" id="results-count">0 trains found</span>
+          </div>
+          <div id="results-container" class="results-container">
+            <!-- Train cards will be rendered here -->
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE: BOOKING -->
+      <section id="page-booking" class="page">
+        <div class="container">
+          <button class="btn btn-back" id="btn-back-results">
+            <i class="ri-arrow-left-line"></i> Back to Results
+          </button>
+          <h2 class="page-title">
+            <i class="ri-ticket-2-line"></i> Book Your Ticket
+          </h2>
+
+          <div class="booking-layout">
+            <div class="booking-main">
+              <div class="card" id="booking-train-summary">
+                <!-- Filled by JS -->
+              </div>
+
+              <div class="card">
+                <h3 class="card-title">
+                  <i class="ri-group-line"></i> Class Selection
+                </h3>
+                <div class="form-group">
+                  <label for="booking-class">Travel Class</label>
+                  <select id="booking-class">
+                    <option value="">Select Class</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="card">
+                <h3 class="card-title">
+                  <i class="ri-group-line"></i> Passenger Details
+                </h3>
+                <div id="passengers-list">
+                  <!-- Passenger forms will be rendered here -->
+                </div>
+                <button
+                  class="btn btn-outline btn-add-passenger"
+                  id="btn-add-passenger"
+                >
+                  <i class="ri-user-add-line"></i> Add Passenger
+                </button>
+              </div>
+            </div>
+
+            <div class="booking-sidebar">
+              <div class="card fare-card">
+                <h3 class="card-title">
+                  <i class="ri-money-rupee-circle-line"></i> Fare Summary
+                </h3>
+                <div id="fare-display" class="fare-breakdown">
+                  <div class="fare-row">
+                    <span>Base Fare</span>
+                    <span>₹0</span>
+                  </div>
+                </div>
+                <div class="fare-total" id="total-fare-display">
+                  <span>Total</span>
+                  <span>₹0</span>
+                </div>
+              </div>
+
+              <div class="card">
+                <h3 class="card-title">
+                  <i class="ri-bank-card-line"></i> Payment
+                </h3>
+                <div class="form-group">
+                  <label for="payment-mode">Payment Mode</label>
+                  <select id="payment-mode">
+                    <option value="UPI">UPI</option>
+                    <option value="Debit Card">Debit Card</option>
+                    <option value="Credit Card">Credit Card</option>
+                    <option value="Cash">Cash</option>
+                  </select>
+                </div>
+                <button
+                  class="btn btn-accent btn-block btn-book"
+                  id="btn-book-now"
+                >
+                  <i class="ri-secure-payment-line"></i> Pay & Book
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE: PNR STATUS -->
+      <section id="page-pnr" class="page">
+        <div class="container">
+          <div class="pnr-hero">
+            <h2><i class="ri-search-eye-line"></i> PNR Status Check</h2>
+            <p>Enter your 10-digit PNR number to check booking status</p>
+            <div class="pnr-search-box">
+              <input
+                type="text"
+                id="pnr-input"
+                placeholder="Enter PNR Number"
+                maxlength="20"
+              />
+              <button class="btn btn-accent" id="btn-check-pnr">
+                <i class="ri-search-line"></i> Check Status
+              </button>
+            </div>
+          </div>
+          <div id="pnr-result" class="pnr-result">
+            <!-- PNR results rendered here -->
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE: MY BOOKINGS -->
+      <section id="page-my-bookings" class="page">
+        <div class="container">
+          <h2 class="page-title">
+            <i class="ri-ticket-2-line"></i> My Bookings
+          </h2>
+          <div id="my-bookings-list" class="bookings-list">
+            <!-- Booking cards rendered here -->
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE: ADMIN DASHBOARD -->
+      <section id="page-admin" class="page">
+        <div class="container">
+          <h2 class="page-title">
+            <i class="ri-dashboard-3-line"></i> Admin Dashboard
+          </h2>
+
+          <div class="admin-stats-grid" id="admin-stats-grid">
+            <!-- Stat cards rendered here -->
+          </div>
+
+          <div class="charts-row" id="admin-charts">
+            <!-- Bar charts rendered here -->
+          </div>
+
+          <div class="admin-tabs">
+            <button class="admin-tab active" id="admin-tab-trains">
+              <i class="ri-train-line"></i> Trains
+            </button>
+            <button class="admin-tab" id="admin-tab-passengers">
+              <i class="ri-group-line"></i> Passengers
+            </button>
+            <button class="admin-tab" id="admin-tab-bookings">
+              <i class="ri-ticket-2-line"></i> Bookings
+            </button>
+            <button class="admin-tab" id="admin-tab-audit">
+              <i class="ri-history-line"></i> Audit Logs
+            </button>
+          </div>
+          <div class="table-wrapper">
+            <table class="data-table" id="admin-data-table">
+              <thead></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ===== TOAST CONTAINER ===== -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+      <div class="container footer-inner">
+        <div class="footer-brand">
+          <i class="ri-train-fill"></i> RailWay
+          <p>Your trusted railway booking partner.</p>
+        </div>
+        <div class="footer-links">
+          <a href="#home">Home</a>
+          <a href="#pnr">PNR Status</a>
+          <a href="#admin">Admin</a>
+        </div>
+        <div class="footer-copy">&copy; 2026 RailWay. All Rights Reserved.</div>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
